@@ -1,0 +1,18 @@
+button {
+  -webkit-app-region: drag; }
+
+.playlist-input {
+  width: 400px; }
+
+.folder-path {
+  width: 600px; }
+
+.refresh-playlists {
+  background: gray; }
+
+.app-container {
+  padding: 20px; }
+  .app-container .folder-path-container {
+    margin-top: 20px; }
+
+/*# sourceMappingURL=main.css.map */
