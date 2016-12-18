@@ -90,9 +90,9 @@ class Home extends React.Component {
           <input type="text"
             className="playlist-input form-control"
             value={url}
-            onChange={this.handleChange.bind(this, idx)}
+            onChange={::this.handleChange(idx)}
             />
-          <button onClick={this.removePlaylist.bind(this, idx)}
+          <button onClick={::this.removePlaylist(idx)}
             className="btn btn-mini btn-negative">
             X
           </button>
@@ -105,15 +105,15 @@ class Home extends React.Component {
       <div className="window">
         <div className="app-container">
 
-          <form onSubmit={this.handleSubmit.bind(this)}>
+          <form onSubmit={::this.handleSubmit}>
             {playlists}
             <button type="submit">Update Playlists</button>
-            <button onClick={this.addPlaylist.bind(this)}>
+            <button onClick={::this.addPlaylist}>
               Add Playlist
             </button>
 
             <button
-              onClick={this.fetchPlaylists.bind(this)}
+              onClick={::this.fetchPlaylists}
               disabled={this.state.isFetching} >
               Fetch Playlists
             </button>
@@ -123,11 +123,11 @@ class Home extends React.Component {
           </form>
 
           <div className="folder-path-container">
-            <form onSubmit={this.handleSubmitFolder.bind(this)}>
+            <form onSubmit={::this.handleSubmitFolder)}>
               <input type="text"
                 className="folder-path form-control"
                 value={this.state.rootFolderPath}
-                onChange={this.handleFolderChange.bind(this)}
+                onChange={::this.handleFolderChange)}
               />
               <button type="submit">Update Folder Path</button>
             </form>
