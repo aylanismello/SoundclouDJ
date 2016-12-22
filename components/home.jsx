@@ -2,6 +2,11 @@ import React from 'react';
 // In renderer process (web page).
 import {ipcRenderer} from 'electron';
 
+const SUBMIT = {
+  FOLDER: 'FOLDER',
+  PLAYLISTS: 'PLAYLIST'
+}
+
 class Home extends React.Component {
 
   constructor(props) {
@@ -32,6 +37,18 @@ class Home extends React.Component {
 
   handleFolderChange(e) {
     this.setState({rootFolderPath: e.target.value});
+  }
+
+  handeSubmit(type, e){
+    e.preventDefault();
+
+    switch(type) {
+      
+      default:
+        console.log('incorrect submission!');
+    }
+
+
   }
 
   handleSubmit(e) {
@@ -82,7 +99,7 @@ class Home extends React.Component {
   }
 
   render() {
-    let {playlists} = this.state;
+    let {playlists, rootFolderPath, isFetching} = this.state;
 
     playlists = playlists.map( (url, idx) => {
       return (
@@ -107,17 +124,17 @@ class Home extends React.Component {
 
           <form onSubmit={::this.handleSubmit}>
             {playlists}
-            <button type="submit">Update Playlists</button>
             <button onClick={::this.addPlaylist}>
               Add Playlist
             </button>
 
             <button
               onClick={::this.fetchPlaylists}
-              disabled={this.state.isFetching} >
+              disabled={isFetching} >
               Fetch Playlists
             </button>
 
+            <button type="submit">Update Playlists</button>
             {/*This will be handled with dialog module */}
 
           </form>
@@ -126,7 +143,7 @@ class Home extends React.Component {
             <form onSubmit={::this.handleSubmitFolder)}>
               <input type="text"
                 className="folder-path form-control"
-                value={this.state.rootFolderPath}
+                value={rootFolderPath}
                 onChange={::this.handleFolderChange)}
               />
               <button type="submit">Update Folder Path</button>

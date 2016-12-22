@@ -37,13 +37,14 @@ app.on('window-all-closed', () => {
 
 
 const soundscrapeCB = (path, url) => {
-  process.chdir(path);
+  // gett root directory here
+  // process.chdir(path);
   console.log(`in callback downloading playlists into ${path}`);
+  // when done, go back
 };
 
 
 ipcMain.on('download-playlists', event => {
-
 
   let {playlists} = data;
 
@@ -52,9 +53,10 @@ ipcMain.on('download-playlists', event => {
     let artistName = url.split("/").slice(-3)[0];
     let playlistName = url.split("/").slice(-1)[0];
     let folderName = `${artistName}_${playlistName}` || `balls`;
-    console.log(`downloading from ${playlistName} by ${artistName}`);
+    // console.log(`downloading from ${playlistName} by ${artistName}`);
+
     console.log(`folder called ${folderName}`)
-    console.log(`\n\n`);
+    // console.log(`\n\n`);
     let path = `${data['rootFolderPath']}/${folderName}`;
 
     fs.stat(path, (err, stats) => {
@@ -62,6 +64,7 @@ ipcMain.on('download-playlists', event => {
       if(err) {
           console.log(err);
 
+          // Make directory here
           fs.mkdir(path, (err, info) => {
             if(err) {
               console.log(`error making directory: ${err}`);
@@ -83,7 +86,7 @@ ipcMain.on('download-playlists', event => {
   });
 
   event.sender.send('receive-playlists', 'finished downloading playlists')
-  console.log('fetching playlists!');
+  // console.log('fetching playlists!');
 });
 
 
@@ -97,14 +100,16 @@ ipcMain.on('load-data', event => {
 ipcMain.on('update-data', (event, arg) => {
   console.log('gonna update playlist urls');
 
-  let data = fs.readFileSync('./data/data.json', 'utf-8');
+  const dataPath = `${process.cwd()}/data/data.json`;
+
+  let data = fs.readFileSync(dataPath, 'utf-8');
 
   data = JSON.parse(data);
   data['playlists'] = arg['playlists'];
   data['rootFolderPath'] = arg['rootFolderPath'];
 
   console.log(data);
-  fs.writeFileSync('./data/data.json', JSON.stringify(data), 'utf-8');
+  fs.writeFileSync(dataPath, JSON.stringify(data), 'utf-8');
 
   // return here should be json file after written
 
