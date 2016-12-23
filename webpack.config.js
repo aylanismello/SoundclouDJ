@@ -1,10 +1,8 @@
-var path = require("path");
-
 module.exports = {
   context: __dirname,
-  entry: "./entry.jsx",
+  entry: './entry.jsx',
   output: {
-    filename: "./bundle.js"
+    filename: './bundle.js'
   },
   module: {
     loaders: [
@@ -20,9 +18,7 @@ module.exports = {
   },
   devtool: 'source-map',
   resolve: {
-    extensions: ["", ".js", ".jsx" ]
+    extensions: ['', '.js', '.jsx' ]
   },
   target: 'electron'
-
-
-};
+}

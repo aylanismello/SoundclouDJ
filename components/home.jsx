@@ -1,6 +1,6 @@
-import React from 'react';
+import React from 'react'
 // In renderer process (web page).
-import {ipcRenderer} from 'electron';
+import {ipcRenderer} from 'electron'
 
 const SUBMIT = {
   FOLDER: 'FOLDER',
@@ -10,14 +10,14 @@ const SUBMIT = {
 class Home extends React.Component {
 
   constructor(props) {
-    super(props);
+    super(props)
 
     ipcRenderer.on('load-playlists-reply', (event, arg) => {
-      console.log(`${arg} received!`);
-    });
+      console.log(`${arg} received!`)
+    })
 
-    let data = ipcRenderer.sendSync('load-data');
-    let { playlists, rootFolderPath } = data;
+    let data = ipcRenderer.sendSync('load-data')
+    let { playlists, rootFolderPath } = data
 
     // the initial state of the playlists comes
     // from json.. needs IPC from electron
@@ -26,54 +26,54 @@ class Home extends React.Component {
       msg: "" ,
       isFetching: false,
       rootFolderPath
-    };
+    }
   }
 
   handleChange(idx, e) {
-    let {playlists} = this.state;
-    playlists[idx] = e.target.value;
-    this.setState({playlists});
+    let {playlists} = this.state
+    playlists[idx] = e.target.value
+    this.setState({playlists})
   }
 
   handleFolderChange(e) {
-    this.setState({rootFolderPath: e.target.value});
+    this.setState({rootFolderPath: e.target.value})
   }
 
   handeSubmit(type, e){
-    e.preventDefault();
+    e.preventDefault()
 
     switch(type) {
-      
+
       default:
-        console.log('incorrect submission!');
+        console.log('incorrect submission!')
     }
 
 
   }
 
   handleSubmit(e) {
-    e.preventDefault();
-    console.log('submitted as fuck');
-    ipcRenderer.sendSync('update-data', {playlists: this.state.playlists, rootFolderPath: this.state.rootFolderPath});
+    e.preventDefault()
+    console.log('submitted as fuck')
+    ipcRenderer.sendSync('update-data', {playlists: this.state.playlists, rootFolderPath: this.state.rootFolderPath})
   }
 
   handleSubmitFolder(e) {
-    e.preventDefault();
-    console.log('updated folder path');
-    ipcRenderer.sendSync('update-data', {playlists: this.state.playlists, rootFolderPath: this.state.rootFolderPath});
+    e.preventDefault()
+    console.log('updated folder path')
+    ipcRenderer.sendSync('update-data', {playlists: this.state.playlists, rootFolderPath: this.state.rootFolderPath})
   }
 
   addPlaylist(e) {
-    let {playlists} = this.state;
-    playlists = playlists.concat([""]);
-    this.setState({playlists});
+    let {playlists} = this.state
+    playlists = playlists.concat([""])
+    this.setState({playlists})
   }
 
   removePlaylist(idx, e) {
-    let {playlists} = this.state;
+    let {playlists} = this.state
     // what is idx is the playlist length?
     playlists = playlists.slice(0, idx).concat(playlists.slice(idx + 1, playlists.length))
-    this.setState({playlists});
+    this.setState({playlists})
   }
 
   fetchPlaylists(e) {
@@ -82,24 +82,24 @@ class Home extends React.Component {
 
     ipcRenderer.on('receive-playlists', (event, arg) => {
 
-      console.log(`received ${arg} in renderer process!`);
+      console.log(`received ${arg} in renderer process!`)
       this.setState({
         msg: arg,
         isFetching: false
-      });
-    });
+      })
+    })
 
-    ipcRenderer.send('download-playlists');
+    ipcRenderer.send('download-playlists')
 
     this.setState({
       isFetching: true,
       msg: 'Fetching Soundcloud playlists...'
-    });
+    })
     // disable fetch playlists button here
   }
 
   render() {
-    let {playlists, rootFolderPath, isFetching} = this.state;
+    let {playlists, rootFolderPath, isFetching} = this.state
 
     playlists = playlists.map( (url, idx) => {
       return (
@@ -115,8 +115,8 @@ class Home extends React.Component {
           </button>
 
         </div>
-      );
-    });
+      )
+    })
 
     return (
       <div className="window">
@@ -154,9 +154,9 @@ class Home extends React.Component {
           <h3> {this.state.msg} </h3>
         </div>
       </div>
-    );
+    )
   }
 }
 
 
-export default Home;
+export default Home
